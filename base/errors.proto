@@ -1,0 +1,17 @@
+syntax = "proto3";
+package errors;
+
+option java_package = "com.im-auld.errors";
+
+enum ErrorCode {
+	NOT_FOUND = 0;
+	BAD_REQUEST = 1;
+	SERVER_ERROR = 2;
+	NOT_AUTHENTICATED = 3;
+	NOT_AUTHORIZED = 4;
+}
+
+message Error {
+	ErrorCode error_code = 1;
+	string message = 2;
+}

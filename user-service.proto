@@ -1,0 +1,41 @@
+syntax = "proto3";
+package userService;	
+
+option java_package = "com.im-auld.userService";
+
+// import public "errors.proto";
+
+enum ErrorCode {
+	NOT_FOUND = 0;
+	BAD_REQUEST = 1;
+	SERVER_ERROR = 2;
+	NOT_AUTHENTICATED = 3;
+	NOT_AUTHORIZED = 4;
+}
+
+message Error {
+	ErrorCode error_code = 1;
+	string message = 2;
+}
+
+message User {
+	int64 user_id = 1;
+	string first_name = 2;
+	string last_name = 3;
+	string email = 4;
+	bool is_active = 5;
+	int64 date_created = 6;
+}
+
+message GetUserRequest {
+	int64 user_id = 1;
+}
+
+message GetUserResponse {
+	User user = 1;
+	Error error = 2;
+}
+
+service UserService {
+	rpc GetUser(GetUserRequest) returns(GetUserResponse);
+}
