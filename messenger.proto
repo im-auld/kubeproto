@@ -1,0 +1,79 @@
+syntax = "proto3";
+
+package messenger;
+
+
+enum MessengerErrorCode {
+  NOT_FOUND = 0;
+  SERVER_ERROR = 1;
+  BAD_REQUEST = 3;
+}
+
+message MessengerError {
+  string message = 1;
+  MessengerErrorCode error_code = 2;
+}
+
+message Message {
+  uint64 id = 1;
+  uint64 thread_id = 2;
+  uint64 sender_id = 3;
+  string text = 4;
+}
+
+message Thread {
+  uint64 id = 1;
+  repeated uint64 participants = 2;
+}
+
+message CreateThreadRequest {
+    repeated uint64 participants = 1;
+}
+
+message CreateThreadResponse {
+    Thread thread = 1;
+    MessengerError error = 2;
+}
+
+message SendMessageRequest {
+    Message message = 1;
+}
+
+message SendMessageResponse {
+    Message message = 1;
+    MessengerError error = 2;
+}
+
+message GetThreadDetailRequest {
+    uint64 thread_id = 1;
+}
+
+message GetThreadDetailResponse {
+    Thread thread = 1;
+    MessengerError error = 2;
+}
+
+message GetThreadMessagesRequest {
+    uint64 thread_id = 1;
+}
+
+message GetThreadMessagesResponse {
+    repeated Message messages = 1;
+}
+
+message GetThreadsForUserRequest {
+    uint64 user_id = 1;
+}
+
+message GetThreadsForUserResponse {
+    repeated Thread threads = 1;
+    MessengerError error = 2;
+}
+
+service Messenger {
+    rpc create_thread(CreateThreadRequest) returns (CreateThreadResponse) {};
+    rpc send_message(SendMessageRequest) returns (SendMessageResponse) {};
+    rpc get_thread_detail(GetThreadMessagesRequest) returns (GetThreadDetailResponse) {};
+    rpc get_thread_messages(GetThreadMessagesRequest) returns (GetThreadMessagesResponse) {};
+    rpc get_threads_for_user(GetThreadsForUserRequest) returns (GetThreadsForUserResponse) {};
+}

@@ -1,7 +1,7 @@
 syntax = "proto3";
-package userService;	
+package identity;	
 
-option java_package = "com.im-auld.userService";
+option java_package = "com.kube-message.identity";
 
 // import public "errors.proto";
 
@@ -24,7 +24,7 @@ message User {
 	string last_name = 3;
 	string email = 4;
 	bool is_active = 5;
-	int64 date_created = 6;
+	int64 date_created = 6;]
 }
 
 message GetUserRequest {
@@ -34,6 +34,17 @@ message GetUserRequest {
 message GetUserResponse {
 	User user = 1;
 	Error error = 2;
+}
+
+message AuthenticateUserRequest {
+	int64 user_id = 1;
+	string login = 2;
+	string password = 3;
+}
+
+message AuthenticateUserResponse {
+	User user = 1;
+	
 }
 
 service UserService {
